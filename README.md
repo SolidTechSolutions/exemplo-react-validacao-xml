@@ -9,6 +9,8 @@ O relatório exibido é propositalmente simples (uma tabela com os campos princi
 - **Modo padrão (backend)**: `POST http://localhost:8096/api/xml/validate/form` — o backend de exemplo repassa pra SolidSign API usando as credenciais do seu `application.properties`.
 - **Modo opcional (direto)**: `POST {baseUrl}/solidsign/dsig/validation/verify-xml` — direto do navegador, com o token informado no formulário.
 
+> **Nota:** a partir de setembro de 2026, o modo direto só funciona se a origem do seu front-end estiver na allow-list de CORS da API (`solidsign.cors.allowed-origins`, que por padrão só inclui os domínios do Portal SolidSign). Testar contra a API de produção a partir de `localhost` vai dar 403 — use o modo padrão (backend) em vez disso.
+
 ## Pré-requisitos
 
 1. Rode o back-end [`exemplo-java-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-java-integracao-validacao-xml) localmente (`mvn spring-boot:run`, porta padrão `8096`) — ou, se for usar o modo direto, tenha um token JWT válido.
@@ -35,6 +37,8 @@ The displayed report is intentionally plain (a table of key fields), not a repro
 
 - **Default mode (backend)**: `POST http://localhost:8096/api/xml/validate/form` — the example backend forwards to the SolidSign API using the credentials from its own `application.properties`.
 - **Optional mode (direct)**: `POST {baseUrl}/solidsign/dsig/validation/verify-xml` — straight from the browser, with the token entered in the form.
+
+> **Note:** as of September 2026, direct mode only works if your front-end's origin is on the SolidSign API's CORS allow-list (`solidsign.cors.allowed-origins`, which by default only includes the Portal SolidSign domains). Testing against the production API from `localhost` will get a 403 — use the default (backend) mode instead.
 
 ## Prerequisites
 
