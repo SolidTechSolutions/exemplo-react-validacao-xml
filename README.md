@@ -1,49 +1,64 @@
-# 🇧🇷 SolidSign API - Front-end de Exemplo: Validação de XML/XAdES (React)
-
-Este projeto é um front-end de exemplo para **validar documentos XML/XAdES assinados**. Por padrão fala com o back-end de exemplo [`exemplo-java-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-java-integracao-validacao-xml), que guarda as credenciais da API do lado do servidor — o padrão de integração recomendado pra clientes. Um modo opcional "Direct to SolidSign API" permite chamar a API diretamente do navegador, útil pra um teste manual rápido, mas expõe o token no browser.
-
-O relatório exibido é propositalmente simples (uma tabela com os campos principais), não uma réplica da interface do validador do Portal SolidSign.
+# 🇧🇷 SolidSign API - Front-end de Exemplo: Validação XML (React)
 
 ## Como funciona
 
-- **Modo padrão (backend)**: `POST http://localhost:8096/api/xml/validate/form` — o backend de exemplo repassa pra SolidSign API usando as credenciais do seu `application.properties`.
-- **Modo opcional (direto)**: `POST {baseUrl}/solidsign/dsig/validation/verify-xml` — direto do navegador, com o token informado no formulário.
+"Via example backend" (padrão) chama `POST /api/xml/validate/form` no back-end de exemplo (`http://localhost:8096`), que repassa pra `POST /solidsign/dsig/validation/verify-xml` da SolidSign API e nunca expõe seu token no navegador. "Direct to SolidSign API" (opcional) chama a API direto do navegador — só pra teste manual rápido.
 
-> **Nota:** a partir de setembro de 2026, o modo direto só funciona se a origem do seu front-end estiver na allow-list de CORS da API (`solidsign.cors.allowed-origins`, que por padrão só inclui os domínios do Portal SolidSign). Testar contra a API de produção a partir de `localhost` vai dar 403 — use o modo padrão (backend) em vez disso.
+## Requisitos
 
-## Pré-requisitos
+Rode **um** destes back-ends de exemplo localmente (todos implementam o mesmo endpoint de formulário e a mesma porta padrão usada abaixo):
 
-1. Rode o back-end [`exemplo-java-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-java-integracao-validacao-xml) localmente (`mvn spring-boot:run`, porta padrão `8096`) — ou, se for usar o modo direto, tenha um token JWT válido.
-2. Um ou mais XMLs assinados (XAdES) para validar.
+- **Java**: [`exemplo-java-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-java-integracao-validacao-xml)
+- **C#**: [`exemplo-csharp-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-csharp-integracao-validacao-xml)
+- **TypeScript**: [`exemplo-typescript-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-typescript-integracao-validacao-xml)
+- **Python**: [`exemplo-python-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-python-integracao-validacao-xml)
+- **PHP**: [`exemplo-php-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-php-integracao-validacao-xml)
+- **Node.js**: [`exemplo-nodejs-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-nodejs-integracao-validacao-xml)
+- **JavaScript**: [`exemplo-javascript-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-javascript-integracao-validacao-xml)
 
-## Rodando
+- Um token JWT válido (`POST /solidsign/auth/token`)
+- Recomendado pra produção: o modo "via backend" — a credencial nunca sai do servidor.
+
+## Como rodar
 
 ```bash
 npm install
 npm run dev
 ```
 
-Abra `http://localhost:5173`, envie o(s) XML(s) e valide.
+Abra `http://localhost:5173`, preencha o formulário e envie.
+
+## Variáveis do formulário
+
+| Campo | Significado | Default |
+|---|---|---|
+| `mode` | Via backend de exemplo (padrão) ou direto à API | `backend` |
+| `backendUrl` | URL do back-end de exemplo | `http://localhost:8096` |
+| `authorization` | Token JWT (Bearer) — só usado no modo "direct" | (vazio) |
+| `documents` | Documento(s) assinado(s) a validar | (vazio) |
 
 ---
 
-# 🇬🇧 SolidSign API - Example Front-end: XML/XAdES Validation (React)
-
-This project is an example front-end for **validating signed XML/XAdES documents**. By default it talks to the [`exemplo-java-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-java-integracao-validacao-xml) example backend, which keeps the API credentials server-side — the recommended integration pattern for customers. An optional "Direct to SolidSign API" mode lets you call the API straight from the browser, useful for a quick manual check, but it exposes the token in the browser.
-
-The displayed report is intentionally plain (a table of key fields), not a reproduction of the Portal SolidSign validator's UI.
+# 🇬🇧 SolidSign API - Example Front-end: XML Validation (React)
 
 ## How it works
 
-- **Default mode (backend)**: `POST http://localhost:8096/api/xml/validate/form` — the example backend forwards to the SolidSign API using the credentials from its own `application.properties`.
-- **Optional mode (direct)**: `POST {baseUrl}/solidsign/dsig/validation/verify-xml` — straight from the browser, with the token entered in the form.
+"Via example backend" (default) calls `POST /api/xml/validate/form` on the example backend (`http://localhost:8096`), which forwards to `POST /solidsign/dsig/validation/verify-xml` on the SolidSign API and never exposes your token in the browser. "Direct to SolidSign API" (optional) calls the API straight from the browser — for quick manual testing only.
 
-> **Note:** as of September 2026, direct mode only works if your front-end's origin is on the SolidSign API's CORS allow-list (`solidsign.cors.allowed-origins`, which by default only includes the Portal SolidSign domains). Testing against the production API from `localhost` will get a 403 — use the default (backend) mode instead.
+## Requirements
 
-## Prerequisites
+Run **one** of these example backends locally (all implement the same form endpoint and default port used below):
 
-1. Run the [`exemplo-java-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-java-integracao-validacao-xml) backend locally (`mvn spring-boot:run`, default port `8096`) — or, for direct mode, have a valid JWT token.
-2. One or more signed (XAdES) XML files to validate.
+- **Java**: [`exemplo-java-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-java-integracao-validacao-xml)
+- **C#**: [`exemplo-csharp-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-csharp-integracao-validacao-xml)
+- **TypeScript**: [`exemplo-typescript-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-typescript-integracao-validacao-xml)
+- **Python**: [`exemplo-python-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-python-integracao-validacao-xml)
+- **PHP**: [`exemplo-php-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-php-integracao-validacao-xml)
+- **Node.js**: [`exemplo-nodejs-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-nodejs-integracao-validacao-xml)
+- **JavaScript**: [`exemplo-javascript-integracao-validacao-xml`](https://github.com/SolidTechSolutions/exemplo-javascript-integracao-validacao-xml)
+
+- A valid JWT token (`POST /solidsign/auth/token`)
+- Recommended for production: "via backend" mode — the credential never leaves the server.
 
 ## Running
 
@@ -52,4 +67,13 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173`, upload the XML file(s) and validate.
+Open `http://localhost:5173`, fill in the form and submit.
+
+## Form fields
+
+| Field | Meaning | Default |
+|---|---|---|
+| `mode` | Via example backend (default) or direct to API | `backend` |
+| `backendUrl` | Example backend URL | `http://localhost:8096` |
+| `authorization` | JWT (Bearer) token — only used in "direct" mode | (empty) |
+| `documents` | Signed document(s) to validate | (empty) |
